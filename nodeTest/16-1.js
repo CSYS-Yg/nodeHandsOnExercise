@@ -8,12 +8,18 @@
     var promise = new Promise((resolve, reject) => {
         // 500 毫秒后，修改 promise 状态为成功状态
         setTimeout(() => {
-            // // 执行成功回调
-            // resolve()
+            // // // 执行成功回调
+            resolve('执行成功')
             // 执行失败，抛出异常回调
-            reject(new Error())
+            // reject(new Error())
         }, 500)
     })
+        .then((res) => {  // 当 Promise 状态扭转为 resolved 后，立即执行
+            console.log(res) // 打印：执行成功
+        })
+        .catch((err) => { // 当 Promise 状态扭转为 rejected 后，立即执行
+            console.log(err) // 打印错误信息
+        })
     // 立即打印 promise 状态
     console.log(promise)
     // 等待 promise 状态扭转后再打印 promise 状态
