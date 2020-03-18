@@ -19,7 +19,7 @@ function interview(name) {
     // 定义一个 Promise 方法
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            // 0.5s 后，80% 的概率成功
+            // 0.5s 后，50% 的概率成功
             if (Math.random() > 0.5) {
                 resolve('成功')
             } else {
