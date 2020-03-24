@@ -24,6 +24,9 @@ const querystring = require('querystring');
 // 导入文件模块，读取电脑上的文件
 const fs = require('fs');
 
+// 导入 game.js
+const game = require('./game')
+
 http.createServer(function (request, response) {
     // 获取切割的参数
     const parsedUrl = url.parse(request.url)
@@ -34,12 +37,18 @@ http.createServer(function (request, response) {
         response.end()
         return
     }
-    console.log(parsedUrl.path)
     if (parsedUrl.pathname == '/game') {
         // querystring.parse(str[, sep[, eq[, options]]])
         const query = querystring.parse(parsedUrl.query)
         const playerAction = query.action
-        console.log(playerAction)
+        const x = game(playerAction)
+        if (x == 500) {
+            response.writeHead(500)
+            response.end('我再也不和你玩了')
+            return
+        }
+        response.writeHead(200)
+        response.end(x)
     }
     if (parsedUrl.pathname == '/') {
         // 返回 html 文件

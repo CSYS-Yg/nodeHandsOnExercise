@@ -17,14 +17,16 @@
 <body>
     <div id="output" style="height: 400px; width: 600px; background: #eee;"></div>
     <button id="rock" style="height: 40px; width: 80px;"> 石头</button>
-    <button id="scissor" style="height: 40px; width: 80px;"> 剪刀</button>
+    <button id="scissors" style="height: 40px; width: 80px;"> 剪刀</button>
     <button id="paper" style="height: 40px; width: 80px;"> 布</button>
+    <button id="reset" style="height: 40px; width: 80px;"> 重置</button>
 </body>
 <script>
     const $button = {
         rock: document.getElementById('rock'),
-        scissor: document.getElementById('scissor'),
-        paper: document.getElementById('paper')
+        scissors: document.getElementById('scissors'),
+        paper: document.getElementById('paper'),
+        reset: document.getElementById('reset')
     }
     const $output = document.getElementById('output')
     // console.log(Object.keys($button)) // ['rock','scissor','paper']
@@ -35,8 +37,12 @@
                 .then((res) => {
                     return res.text()
                 })
-                .then((test) => {
-                    $output.innerHTML += text + '<br/>';
+                .then((text) => {
+                    if (text == '已重置') {
+                        $output.innerHTML = text + '<br/>';
+                    } else {
+                        $output.innerHTML += text + '<br/>';
+                    }
                 })
         })
     })
