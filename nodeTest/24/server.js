@@ -46,10 +46,17 @@ const server = net.createServer((socket) => {
     // 向通道读出数据,在 node.js 的方法
     // 监测 data 数据，触发则回调事件，参数为数据原始的 buffer 实例
     socket.on('data', function (buffer) {
-        // 将传递过来的 buffer 转成字符串
-        let id = buffer.readInt32BE()
-        // 返回给客户端数据
-        socket.write(LESSON_DATA[id])
+        // 读取前面两位的包序号
+        const seqBuffer = buffer.slice(0, 2);
+        // 将传递过来的 buffer 从第二位开始读 id
+        let lessonid = buffer.readInt32BE(2)
+        setTimeout(() => {
+            // 将 包序号 与返回的 title buff 拼接并返回
+            buffer = Buffer.concat([seqBuffer, Buffer.from(LESSON_DATA[lessonid])])
+            // 返回给客户端数据
+            socket.write(buffer)
+            // 将包乱序返回
+        }, 10 + Math.random() * 1000);
     })
 })
 
