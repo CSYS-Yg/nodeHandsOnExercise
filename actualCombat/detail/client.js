@@ -13,6 +13,7 @@ const easySock = new EasySock({
     keepAlive: true
 })
 
+// 客户端将请求包编码出来
 easySock.encode = function (data, seq) {
     const body = schemas.ColumnRequest.encode(data);
 
@@ -22,6 +23,8 @@ easySock.encode = function (data, seq) {
 
     return Buffer.concat([head, body])
 }
+
+// 客户端接收到服务端数据解析成结构化数据
 easySock.decode = function (buffer) {
     const seq = buffer.readInt32BE();
     const body = schemas.ColumnResponse.decode(buffer.slice(8));
@@ -31,6 +34,7 @@ easySock.decode = function (buffer) {
         seq
     }
 }
+// 判断包是否接收完毕，处理粘包与缺包
 easySock.isReceiveComplete = function (buffer) {
     if (buffer.length < 8) {
         return 0
